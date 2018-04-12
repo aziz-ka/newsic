@@ -1,0 +1,35 @@
+.articles__image {
+  width: inherit;
+}
+.articles__timestamp {
+  font-size: .75rem;
+  font-weight: 100;
+  vertical-align: sub;
+}
+
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child {
+  border: none;
+  border-radius: 0;
+}
+
+.Select.is-open + .sources-list {
+  filter: blur(5px);
+}
+.Select.is-open > .Select-control {
+  border-color: #ced4da;
+}
+.Select-control {
+  border-color: #ced4da;
+  display: block;
+}
+.Select-menu-outer {
+  border: 1px solid #ced4da;
+  box-shadow: none;
+  overflow: hidden;
+}
+.Select-menu,
+.Select-menu-outer {
+  max-height: 400px;
+}

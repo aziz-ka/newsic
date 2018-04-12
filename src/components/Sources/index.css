@@ -1,0 +1,28 @@
+.list-group-item,
+.list-group-item:first-child,
+.list-group-item:last-child {
+  border: none;
+  border-radius: 0;
+}
+.sources-list {
+  box-shadow: 0px 0px 8px -2px #ccc;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.sources-sidebar {
+  order: 0;
+}
+
+@media (min-width: 576px) {
+  .sources-sidebar {
+    border-right: 1px solid #eee;
+    flex: 0 1 220px;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+  }
+  .sources-list {
+    box-shadow: none;
+    max-height: calc(100vh - 140px);
+  }
+}
