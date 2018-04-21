@@ -8,22 +8,34 @@ const countries = [
   'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za'
 ];
 
+const sortBy = ['relevancy', 'popularity', 'publishedAt'];
+
 const searchDefault = {
   category: '',
-  country: '',
+  country: 'us',
   domains: '',
-  fromDate: null,
-  language: 'en',
+  from: null,
+  language: '',
   q: '',
   sortBy: '',
   sources: '',
-  toDate: null
+  to: null
 };
+
+const searchFacets = ['category', 'country', 'language', 'sortBy'];
+
+const everythingFacets = ['domains', 'from', 'language', 'q', 'sortBy', 'sources', 'to'];
+
+const headlinesFacets = ['category', 'country'];
 
 
 export {
   categories,
   countries,
+  everythingFacets,
   languages,
-  searchDefault
+  searchFacets,
+  searchDefault,
+  sortBy,
+  headlinesFacets
 };

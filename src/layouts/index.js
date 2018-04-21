@@ -3,7 +3,8 @@ import Helmet from 'react-helmet';
 import qs from 'qs';
 
 import { KEYWORDS, DESCRIPTION, TITLE } from '../../config';
-import { searchDefault } from '../constants';
+import { everythingFacets, searchDefault, headlinesFacets } from '../constants';
+import { sanitizeObj } from '../utils';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -26,6 +27,25 @@ export default class TemplateWrapper extends React.Component {
     return newSearchParams;
   }
 
+  get allProps() {
+    return {
+      ...this.props,
+      searchParams: this.state,
+      addQueryParams: this.addQueryParams
+    };
+  }
+
+  addQueryParams = param => {
+    const isHeadlinesParam = headlinesFacets.includes(Object.keys(param)[0]);
+    const facets = isHeadlinesParam ? headlinesFacets : everythingFacets;
+    const newSearchQuery = facets.reduce((result, value) => {
+      result[value] = this.state[value];
+      return result;
+    }, {});
+
+    return `?${qs.stringify({ ...sanitizeObj(newSearchQuery), ...param })}`;
+  }
+
   render = () => (
     <div>
       <Helmet
@@ -38,9 +58,9 @@ export default class TemplateWrapper extends React.Component {
       >
         <html lang='en' />
       </Helmet>
-      <Header {...{...this.props, searchParams: this.state}} />
+      <Header {...this.allProps} />
       <main className='container-fluid'>
-        { this.props.children({...{...this.props, searchParams: this.state}}) }
+        { this.props.children({...this.allProps}) }
       </main>
       <Footer />
     </div>

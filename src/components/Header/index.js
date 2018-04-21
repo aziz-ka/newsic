@@ -6,12 +6,8 @@ import {
   languages as languagesData
 } from 'country-data';
 
-import {
-  categories,
-  countries,
-  languages
-} from '../../constants';
-import { capitalizeString } from '../../utils';
+import { categories, countries, languages, searchFacets, sortBy } from '../../constants';
+import { capitalizeString, capitalizeCamelCaseString } from '../../utils';
 import logo from '../../assets/logo.svg';
 import menu from '../../assets/menu.svg';
 import search from '../../assets/search.svg';
@@ -22,7 +18,16 @@ export default class Header extends React.Component {
   state = {
     isAdvancedSearchExpanded: false,
     isMenuExpanded: false,
+    domains: '',
     q: ''
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      ...prevState,
+      domains: nextProps.searchParams.domains || '',
+      q: nextProps.searchParams.q || ''
+    };
   }
 
   get categoryOptions() {
@@ -37,36 +42,75 @@ export default class Header extends React.Component {
     return languages.map(value => ({ value, label: languagesData[value].name }));
   }
 
+  get sortByOptions() {
+    return sortBy.map(value => ({ value, label: capitalizeCamelCaseString(value) }));
+  }
+
   handleChange = e => this.setState({ [e.target.name]: e.target.value })
 
-  handleDropdownChange = (name, { value }) => navigateTo(`?${name}=${value}`)
+  handleDropdownChange = (name, option) => option && navigateTo(this.props.addQueryParams({ [name]: option.value }))
 
-  handleSubmit = e => {
+  handleSubmit = (name, e) => {
     e.preventDefault();
-    navigateTo(`?q=${this.state.q}`);
-    this.setState({ q: '' });
+    navigateTo(this.props.addQueryParams({ [name]: this.state[name] }));
   }
 
   handleToggle = name => this.setState({ [name]: !this.state[name] })
 
   renderSearchDropdowns = (name, key) => (
-    <div className='col-xs-12 col' key={key}>
+    <div className='col-xs-12 col-sm-3' key={key}>
       <label className='header__label text-muted mt-3 mt-sm-2 mb-0' htmlFor={`${name}-input`}>
-        { capitalizeString(name) }
+        { capitalizeCamelCaseString(name) }
       </label>
       <Select
         clearable
-        disabled={!!this.props.searchParams.sources && (name === 'category' || name === 'country')}
         id={`${name}-input`}
         name={name}
         onChange={this.handleDropdownChange.bind(this, name)}
         options={this[`${name}Options`]}
-        placeholder={`Pick a ${name}`}
+        placeholder={name === 'sortBy' ? 'Pick a sort order' : `Pick a ${name}`}
         searchable
         value={this.props.searchParams[name]}
       />
     </div>
   )
+
+  renderSearchInputs = name => {
+    let displayName = name;
+    let formClassName = 'col-xs-12 col-sm-4';
+    let inputClassName = `header__input--${name} form-control`;
+    let labelClassName = 'header__label text-muted mt-3 mb-0';
+
+    if (name === 'q') {
+      displayName = 'keyword';
+      formClassName = '';
+      labelClassName = 'sr-only';
+    }
+
+    return (
+      <form className={formClassName} onSubmit={this.handleSubmit.bind(this, name)}>
+        <label className={labelClassName} htmlFor={name}>
+          { capitalizeCamelCaseString(displayName) }
+        </label>
+        <div className='input-group'>
+          <input
+            aria-label={`Search by ${displayName}`}
+            className={inputClassName}
+            id={name}
+            name={name}
+            onChange={this.handleChange}
+            placeholder={`Search by ${displayName}`}
+            required
+            type='search'
+            value={this.state[name]}
+          />
+          <button className={`header__btn header__btn--${name} btn input-group-append`} type='submit'>
+            <img src={search} alt='Search icon' />
+          </button>
+        </div>
+      </form>
+    );
+  }
 
   renderCollapsibleMenu = () => (
     <div
@@ -80,29 +124,15 @@ export default class Header extends React.Component {
         >
           Advanced Search
         </button>
-        <form className='form-inline flex-nowrap' onSubmit={this.handleSubmit}>
-          <label className='sr-only' htmlFor='q'>Search keyword</label>
-          <input
-            aria-label='Search'
-            className='header__input--query form-control'
-            id='q'
-            name='q'
-            onChange={this.handleChange}
-            placeholder='Search by keyword'
-            required
-            type='search'
-            value={this.props.searchParams.q || this.state.q} />
-          <button className='header__btn--search btn' type='submit'>
-            <img src={search} alt='Search icon' />
-          </button>
-        </form>
+        { this.renderSearchInputs('q') }
       </div>
       <div className={`
         header__advanced-search form-inline ml-auto mt-0 mt-sm-3 col-12 px-0
         ${this.state.isAdvancedSearchExpanded ? 'header__advanced-search--expanded' : ''}
       `}>
         <div className='row d-block d-sm-flex'>
-          { ['category', 'country', 'language'].map(this.renderSearchDropdowns) }
+          { searchFacets.map(this.renderSearchDropdowns) }
+          { this.renderSearchInputs('domains') }
           <div className='col-12 mt-3 text-right'>
             <Link className='btn btn-link px-0' to='/'>Reset filters</Link>
           </div>

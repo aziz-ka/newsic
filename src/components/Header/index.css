@@ -11,7 +11,9 @@
   font-size: .75rem;
   font-style: italic;
 }
-.header .Select-control {
+.header .Select-control,
+.header__btn--domains.btn,
+.header__input--domains.form-control {
   background: transparent;
   border: none;
   border-bottom: 1px solid #ced4da;
@@ -21,6 +23,10 @@
 .header .Select-placeholder,
 .header .Select--single > .Select-control .Select-value {
   padding: 0;
+}
+.header .Select.has-value.Select--single >
+.Select-control .Select-value .Select-value-label {
+  color: #495057;
 }
 .header .Select.is-focused > .Select-control,
 .header .Select.is-focused:not(.is-open) > .Select-control {
@@ -37,16 +43,24 @@
   width: 2rem;
   vertical-align: bottom;
 }
-.header__input--query.form-control {
+.header__input--q.form-control {
   border-radius: .25rem 0 0 .25rem;
   border-right: none;
 }
-.header__btn--search.btn {
-  background: #fff;
+.header__input--domains.form-control {
+  padding-left: 0;
+  padding-right: 0;
+}
+.header__input--domains.form-control::placeholder {
+  color: #aaa;
+}
+.header__btn--domains.btn {
+  padding-right: 0;
+}
+.header__btn--q.btn {
   border: 1px solid #ced4da;
   border-radius: 0 .25rem .25rem 0;
-  padding-top: .325rem;
-  padding-bottom: .325rem;
+  z-index: 1;
 }
 .header__advanced-search {
   display: none !important;

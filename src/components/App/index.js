@@ -18,17 +18,13 @@ export default class IndexPage extends React.Component {
   }
 
   getHeadlines = () => {
-    const apiURL = `${NEWS_API_URL_BASE}/top-headlines`;
     const apiKey = process.env.GATSBY_NEWS_API_KEY;
-    const { category, country, language, q, sources } = this.props.searchParams;
-    const params = {
-      apiKey,
-      category,
-      country,
-      language,
-      q,
-      sources
-    };
+    const { category, country, domains, from, language, q, sortBy, sources, to } = this.props.searchParams;
+    const params = { apiKey, category, country, domains, from, language, q, sortBy, sources, to };
+    const shouldRequestHeadlines = [country, category].some(i => i) || ![domains, q, sources].some(i => i);
+    const apiURL = shouldRequestHeadlines
+      ? `${NEWS_API_URL_BASE}/top-headlines`
+      : `${NEWS_API_URL_BASE}/everything`;
 
     axios
       .get(apiURL, { params })

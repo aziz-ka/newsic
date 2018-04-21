@@ -42,4 +42,5 @@ $ yarn serve
 
 - [ ] Pagination
 - [ ] Tests
-- [ ] Complex search query params
+- [ ] Iframe article modal
+- [x] Complex search query params
