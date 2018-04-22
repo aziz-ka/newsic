@@ -1,4 +1,4 @@
-# [Newsic | Interactive News Dashboard](https://jolly-cheese.surge.sh)
+# [Newsic | Interactive News Dashboard](https://newsic.surge.sh)
 
 
 ## Stack
@@ -8,6 +8,7 @@
 - Bootstrap 4
 - Netlify
 - News API
+- Surge
 
 
 #### Quick Start
@@ -33,6 +34,7 @@ $ yarn serve
 |Script|Description|
 |---|---|
 |`yarn build`|Build the app to `./public`|
+|`yarn deploy`|Deploy the app to [https://newsic.surge.sh](https://newsic.surge.sh)|
 |`yarn start`|Start the app on `localhost:8000`|
 |`yarn serve`|Serve the app on `localhost:9000`|
 |`yarn test`|Run tests and code coverage|

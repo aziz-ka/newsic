@@ -27,13 +27,15 @@
     "react-feather": "^1.0.8",
     "react-helmet": "^5.2.0",
     "react-select": "^1.2.1",
-    "react-share": "^2.0.0"
+    "react-share": "^2.0.0",
+    "surge": "^0.20.1"
   },
   "devDependencies": {
     "prettier": "^1.10.2"
   },
   "scripts": {
     "build": "gatsby build",
+    "deploy": "yarn build && surge --project ./public --domain https://newsic.surge.sh",
     "serve": "gatsby serve",
     "start": "gatsby develop --host localhost --port 8000",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
