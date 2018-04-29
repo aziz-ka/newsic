@@ -13,6 +13,8 @@
 }
 .header .Select-control,
 .header__btn--domains.btn,
+.header__input--date.form-control,
+.header__input--select.form-control,
 .header__input--domains.form-control {
   background: transparent;
   border: none;
@@ -21,6 +23,7 @@
 }
 .header .Select-input,
 .header .Select-placeholder,
+.header__input--select.form-control,
 .header .Select--single > .Select-control .Select-value {
   padding: 0;
 }
@@ -47,10 +50,13 @@
   border-radius: .25rem 0 0 .25rem;
   border-right: none;
 }
+.header__input--date.form-control,
 .header__input--domains.form-control {
   padding-left: 0;
   padding-right: 0;
 }
+.header__input--date.form-control::placeholder,
+.header__input--date.form-control:invalid::-webkit-datetime-edit,
 .header__input--domains.form-control::placeholder {
   color: #aaa;
 }
@@ -70,4 +76,23 @@
 }
 .header__advanced-search-toggle.btn-link:hover {
   text-decoration: none;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.header__input--date.form-control {
+  width: 100% !important;
+}
+.react-datepicker,
+.react-datepicker__header {
+  border-color: #ced4da !important;
+}
+.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::before {
+  border-bottom-color: #ced4da !important;
+}
+
+@media (max-width: 576px) {
+  .react-datepicker-popper {
+    display: none;
+  }
 }

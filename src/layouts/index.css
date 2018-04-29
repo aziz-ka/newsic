@@ -6,3 +6,8 @@ body {
   padding: 100px 0;
   position: relative;
 }
+input, select {
+  box-shadow: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}

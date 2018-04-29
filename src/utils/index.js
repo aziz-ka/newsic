@@ -39,6 +39,8 @@ const capitalizeCamelCaseString = string => {
   return capitalizeString(normalizedStr);
 }
 
+const isMobileScreenSize = window.innerWidth < 576;
+
 const sanitizeObj = obj => Object.keys(obj).reduce((result, key) => {
   if (obj[key]) result[key] = obj[key]
   return result;
@@ -49,5 +51,6 @@ export {
   capitalizeString,
   capitalizeCamelCaseString,
   getTimeDifference,
+  isMobileScreenSize,
   sanitizeObj
 };

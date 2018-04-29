@@ -1,13 +1,15 @@
 import React from 'react';
 import Select from 'react-select';
+import DatePicker from 'react-datepicker';
 import Link, { navigateTo } from 'gatsby-link';
+import moment from 'moment';
 import {
   countries as countriesData,
   languages as languagesData
 } from 'country-data';
 
 import { categories, countries, languages, searchFacets, sortBy } from '../../constants';
-import { capitalizeString, capitalizeCamelCaseString } from '../../utils';
+import { capitalizeString, capitalizeCamelCaseString, isMobileScreenSize } from '../../utils';
 import logo from '../../assets/logo.svg';
 import menu from '../../assets/menu.svg';
 import search from '../../assets/search.svg';
@@ -48,7 +50,11 @@ export default class Header extends React.Component {
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value })
 
-  handleDropdownChange = (name, option) => option && navigateTo(this.props.addQueryParams({ [name]: option.value }))
+  handleDateChange = (label, date) =>
+    date && date.isValid() && navigateTo(this.props.addQueryParams({ [label]: date.format('YYYY-MM-DD') }))
+
+  handleDropdownChange = (name, option) =>
+    option && navigateTo(this.props.addQueryParams({ [name]: option.value || option.target.value }))
 
   handleSubmit = (name, e) => {
     e.preventDefault();
@@ -57,21 +63,40 @@ export default class Header extends React.Component {
 
   handleToggle = name => this.setState({ [name]: !this.state[name] })
 
+  renderNativeOptions = ({ label, value }, key) => <option key={key} value={value}>{ label }</option>
+
+  renderNativeSelect = name => (
+    <select
+      className='header__input--select form-control'
+      id={`${name}-input`}
+      name={name}
+      onChange={this.handleDropdownChange.bind(this, name)}
+      value={this.props.searchParams[name]}
+    >
+      <option value=''>Pick a { name === 'sortBy' ? 'Pick a sort order' : `Pick a ${name}` }</option>
+      { this[`${name}Options`].map(this.renderNativeOptions) }
+    </select>
+  )
+
+  renderReactSelect = name => (
+    <Select
+      clearable
+      id={`${name}-input`}
+      name={name}
+      onChange={this.handleDropdownChange.bind(this, name)}
+      options={this[`${name}Options`]}
+      placeholder={name === 'sortBy' ? 'Pick a sort order' : `Pick a ${name}`}
+      searchable
+      value={this.props.searchParams[name]}
+    />
+  )
+
   renderSearchDropdowns = (name, key) => (
-    <div className='col-xs-12 col-sm-3' key={key}>
+    <div className={`col-${name === 'domains' ? '12' : '6'} col-sm-3`} key={key}>
       <label className='header__label text-muted mt-3 mt-sm-2 mb-0' htmlFor={`${name}-input`}>
         { capitalizeCamelCaseString(name) }
       </label>
-      <Select
-        clearable
-        id={`${name}-input`}
-        name={name}
-        onChange={this.handleDropdownChange.bind(this, name)}
-        options={this[`${name}Options`]}
-        placeholder={name === 'sortBy' ? 'Pick a sort order' : `Pick a ${name}`}
-        searchable
-        value={this.props.searchParams[name]}
-      />
+      { isMobileScreenSize ? this.renderNativeSelect(name) : this.renderReactSelect(name) }
     </div>
   )
 
@@ -112,6 +137,29 @@ export default class Header extends React.Component {
     );
   }
 
+  renderDatepickers = date => (
+    <div className='col-6 col-sm-4' key={date}>
+      <label className='header__label text-muted mt-3 mb-0' htmlFor={date}>
+        { capitalizeCamelCaseString(date) }
+      </label>
+      <DatePicker
+        className={`header__input--date header__input--${date} form-control`}
+        customInput={isMobileScreenSize ? <input type='date'/> : null}
+        dateFormatCalendar='MMMM'
+        id={date}
+        maxDate={moment().endOf('day')}
+        name={date}
+        onChange={this.handleDateChange.bind(this, date)}
+        onChangeRaw={e => this.handleDateChange(date, moment(e.target.value))}
+        placeholderText={`Pick a ${date} date`}
+        required
+        selected={this.props.searchParams[date] && moment(this.props.searchParams[date])}
+        showYearDropdown
+        scrollableYearDropdown
+        value={this.props.searchParams[date]} />
+    </div>
+  )
+
   renderCollapsibleMenu = () => (
     <div
       className={`collapse navbar-collapse py-1 mt-3 mt-sm-0 ${this.state.isMenuExpanded ? 'show' : ''}`}
@@ -130,9 +178,10 @@ export default class Header extends React.Component {
         header__advanced-search form-inline ml-auto mt-0 mt-sm-3 col-12 px-0
         ${this.state.isAdvancedSearchExpanded ? 'header__advanced-search--expanded' : ''}
       `}>
-        <div className='row d-block d-sm-flex'>
+        <div className='row d-sm-flex'>
           { searchFacets.map(this.renderSearchDropdowns) }
           { this.renderSearchInputs('domains') }
+          { ['from', 'to'].map(this.renderDatepickers) }
           <div className='col-12 mt-3 text-right'>
             <Link className='btn btn-link px-0' to='/'>Reset filters</Link>
           </div>
