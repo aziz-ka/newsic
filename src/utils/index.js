@@ -1,3 +1,5 @@
+/* eslint-disable no-trailing-spaces */
+
 const getTimeDifference = previousDate => {
   const msPerMinute = 60 * 1000;
   const msPerHour = msPerMinute * 60;
@@ -37,12 +39,12 @@ const capitalizeString = string => string.charAt(0).toUpperCase() + string.slice
 const capitalizeCamelCaseString = string => {
   const normalizedStr = string.replace( /([A-Z])/g, ' $1' );
   return capitalizeString(normalizedStr);
-}
+};
 
 const isMobileScreenSize = window.innerWidth < 576;
 
 const sanitizeObj = obj => Object.keys(obj).reduce((result, key) => {
-  if (obj[key]) result[key] = obj[key]
+  if (obj[key]) result[key] = obj[key];
   return result;
 }, {});
 

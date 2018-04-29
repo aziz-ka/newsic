@@ -28,7 +28,7 @@ export default class Sources extends React.Component {
     axios
       .get(apiURL, { params })
       .then(res => this.setState({ sourcesList: res.data.sources }))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err)); // eslint-disable-line no-console
   }
 
   handleDropdownChange = (name, { label, value }) => {
@@ -43,7 +43,7 @@ export default class Sources extends React.Component {
   )
 
   render = () => {
-    const { sourcesList, sources } = this.state;
+    const { sourcesList } = this.state;
 
     if (!sourcesList) return <Loader />;
 

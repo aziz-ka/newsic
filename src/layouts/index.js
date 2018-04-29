@@ -18,7 +18,7 @@ export default class TemplateWrapper extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const searchQuery = qs.parse(nextProps.location.search, { ignoreQueryPrefix: true });
 
-    if (!Object.keys(searchQuery).length) return { ...prevState, ...searchDefault }
+    if (!Object.keys(searchQuery).length) return { ...prevState, ...searchDefault };
 
     const newSearchParams = Object.keys(prevState).reduce((result, value) => {
       result[value] = searchQuery[value];

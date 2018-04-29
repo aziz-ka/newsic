@@ -18,6 +18,17 @@ module.exports = {
     'gatsby-plugin-react-next',
     'gatsby-plugin-remove-trailing-slashes',
     {
+      resolve: 'gatsby-plugin-eslint',
+      options: {
+        test: /\.js$|\.jsx$/,
+        exclude: /(node_modules|cache|public)/,
+        options: {
+          emitWarning: true,
+          failOnError: false
+        }
+      }
+    },
+    {
       resolve: 'gatsby-plugin-sitemap',
       options: {
         output: '/sitemap.xml',

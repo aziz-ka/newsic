@@ -14,7 +14,6 @@
     "country-data": "^0.0.31",
     "gatsby": "^1.9.248",
     "gatsby-link": "^1.6.37",
-    "gatsby-plugin-accessibilityjs": "^1.0.3",
     "gatsby-plugin-manifest": "^1.0.19",
     "gatsby-plugin-nprogress": "^1.0.14",
     "gatsby-plugin-offline": "^1.0.15",
@@ -33,6 +32,13 @@
     "surge": "^0.20.1"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-loader": "^2.0.0",
+    "gatsby-plugin-accessibilityjs": "^1.0.3",
+    "gatsby-plugin-eslint": "^1.0.3",
+    "babel-eslint": "^8.2.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-react": "^7.7.0",
     "prettier": "^1.10.2"
   },
   "scripts": {

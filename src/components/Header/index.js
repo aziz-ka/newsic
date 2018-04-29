@@ -144,7 +144,7 @@ export default class Header extends React.Component {
       </label>
       <DatePicker
         className={`header__input--date header__input--${date} form-control`}
-        customInput={isMobileScreenSize ? <input type='date'/> : null}
+        customInput={isMobileScreenSize ? <input type='date' /> : null}
         dateFormatCalendar='MMMM'
         id={date}
         maxDate={moment().endOf('day')}
@@ -156,7 +156,8 @@ export default class Header extends React.Component {
         selected={this.props.searchParams[date] && moment(this.props.searchParams[date])}
         showYearDropdown
         scrollableYearDropdown
-        value={this.props.searchParams[date]} />
+        value={this.props.searchParams[date]}
+      />
     </div>
   )
 

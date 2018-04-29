@@ -14,7 +14,7 @@ export default class IndexPage extends React.Component {
   componentDidMount = () => this.getHeadlines()
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
-    if (prevProps.location.search !== this.props.location.search) this.getHeadlines()
+    if (prevProps.location.search !== this.props.location.search) this.getHeadlines();
   }
 
   getHeadlines = () => {
@@ -29,7 +29,7 @@ export default class IndexPage extends React.Component {
     axios
       .get(apiURL, { params })
       .then(res => this.setState({ articlesList: res.data.articles }))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err)); // eslint-disable-line no-console
   }
 
   renderArticles = ({ author, description, publishedAt, source, title, url, urlToImage }, key) => (
