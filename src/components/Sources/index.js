@@ -45,9 +45,7 @@ export default class Sources extends React.Component {
   render = () => {
     const { sourcesList } = this.state;
 
-    if (!sourcesList) return <Loader />;
-
-    if (!sourcesList.length) return null;
+    if (!sourcesList || !sourcesList.length) return null;
 
     return (
       <aside className='sources-sidebar col-12 col-md-3 col-xl-2 pt-2'>
